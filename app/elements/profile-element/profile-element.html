@@ -1,0 +1,145 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<dom-module id="profile-element">
+	<template>
+		<style include="shared-styles">
+			:host {
+				display: block;
+				margin: auto;
+
+				width: 100%;
+				max-width: 400px;
+				min-width: 250px;
+
+				height: 100%;
+				max-height: 400px;
+				min-height: 250px;
+
+				background: var(--default-primary-color);
+
+				@apply(--layout-horizontal);
+				@apply(--layout-center-justified);
+			}
+
+			#container {
+				padding: 0 5% 0 5%;
+			}
+
+			#image {
+				width: 70px;
+				height: 70px;
+				border-radius: 50%;
+
+				margin: 15% 0 5% 0;
+			}
+
+			#name {
+				color: var(--text-primary-color);
+
+				font-size: larger;
+				text-transform: capitalize;
+			}
+
+			#suffix {
+				color: var(--text-primary-color);
+
+				font-size: medium;
+				text-transform: capitalize;
+				font-weight: lighter;
+			}
+
+			#links {
+				color: var(--text-primary-color);
+				width: 120px;
+
+				margin-bottom: 10%;
+			}
+		</style>
+
+		<div id="container" class="vertical layout center">
+			<iron-image id="image"
+						src="{{avatar}}"
+						sizing="cover">
+			</iron-image>
+
+			<span id="name">{{name}}</span>
+			<span id="suffix">{{suffix}}</span>
+
+			<span class="flex"></span>
+
+			<div id="links" class="horizontal around-justified layout">
+				<paper-icon-button icon="social:notifications"></paper-icon-button>
+				<paper-icon-button icon="mail"></paper-icon-button>
+			</div>
+		</div>
+	</template>
+
+	<script>
+		(function () {
+			'use strict';
+
+			Polymer({
+				is: 'profile-element',
+
+				properties: {
+					avatar: {
+						type: String,
+						value: 'http://coolspotters.com/files/photos/147640/leonardo-dicaprio-profile.jpg?1357517911'
+					},
+
+					name: {
+						type: String,
+						value: 'Leonardo DiCaprio'
+					},
+					suffix: {
+						type: String,
+						value: 'groom'
+					},
+
+					color: {
+						type: Object,
+						value: function () {
+							return {
+								begin: '#4C79FC',
+								end: '#207CE5'
+							};
+						}
+					},
+					background: {
+						type: String,
+						value: 'http://images4.fanpop.com/image/photos/20800000/Kate-and-Leo-kate-winslet-and-leonardo-dicaprio-20846065-674-476.jpg'
+					}
+				},
+				observers: [
+					'_bgChange(background, color)'
+				],
+				_bgChange: function (picture, color) {
+					if (picture && color) {
+						var hexToRGB = function (hex) {
+							hex = (hex.charAt(0) === '#') ? hex.substring(1, 7) : hex;
+							var r = parseInt(hex.substring(0, 2), 16);
+							var g = parseInt(hex.substring(2, 4), 16);
+							var b = parseInt(hex.substring(4, 6), 16);
+
+							return {r: r, g: g, b: b};
+						};
+
+						var bg = 'linear-gradient(to bottom';
+
+						var c = hexToRGB(color.begin);
+						bg += ', rgba(' + c.r + ',' + c.g + ',' + c.b + ', 0.8)';
+						c = hexToRGB(color.end);
+						bg += ', rgba(' + c.r + ',' + c.g + ',' + c.b + ', 0.4))';
+
+						bg += ', url(' + picture + ')';
+
+						this.style['background-image'] = bg;
+						this.style['background-size'] = '100%, cover';
+						this.style['background-position'] = 'top, center';
+						this.style['background-repeat'] = 'no-repeat';
+					}
+				}
+			});
+		})();
+	</script>
+</dom-module>

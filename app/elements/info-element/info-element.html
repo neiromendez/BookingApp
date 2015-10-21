@@ -1,0 +1,76 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<dom-module id="info-element">
+	<template>
+		<style include="shared-styles">
+			:host {
+				display: block;
+			}
+
+			paper-material {
+				margin: auto;
+				max-width: 450px;
+			}
+		</style>
+
+		<paper-material elevation="1">
+			<profile-element avatar="{{user.avatar}}"
+							 name="{{user.name}}"
+							 suffix="{{user.suffix}}"
+							 color="{{user.color}}"
+							 background="{{user.background}}">
+			</profile-element>
+
+			<paper-menu class="list"
+						attr-for-selected="info-route"
+						selected="[[route]]">
+				<template is="dom-repeat" items="{{entries}}" as="link">
+					<button-element info-route="{{link.route}}"
+									url="{{link.url}}"
+									icon="{{link.icon}}"
+									text="{{link.text}}">
+					</button-element>
+				</template>
+			</paper-menu>
+		</paper-material>
+	</template>
+
+	<script>
+		(function () {
+			'use strict';
+
+			Polymer({
+				is: 'info-element',
+
+				properties: {
+					user: {
+						type: Object,
+						notify: true
+					},
+					entries: {
+						type: Array,
+						value: function () {
+							return [
+								{icon: 'event', text: 'Monday, 21th September, 2015', url: '', route: 'events'},
+								{
+									icon: 'maps:place',
+									text: 'Margarita, Nueva Esparta, Venezuela',
+									url: '',
+									route: 'maps'
+								},
+								{icon: 'receipt', text: 'Wedding', url: '', route: 'list'},
+								{icon: 'work', text: 'RedEntertainment', url: '', route: 'work'},
+								{icon: 'perm-contact-calendar', text: 'The Pearl Bands', url: '', route: 'contact'},
+								{icon: 'credit-card', text: '$300 of $5000', url: '', route: 'credit'},
+								{icon: 'class', text: '10 Days Left', url: '', route: 'spare'},
+								{icon: 'notification:event-note', text: 'This is a NOTE', url: '', route: 'notes'},
+								{icon: 'social:group', text: 'Team', url: '', route: 'team'},
+								{icon: 'device:access-time', text: 'Timeline', url: '', route: 'timeline'}
+							];
+						}
+					}
+				}
+			});
+		})();
+	</script>
+</dom-module>

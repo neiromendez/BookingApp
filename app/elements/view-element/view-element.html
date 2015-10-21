@@ -1,0 +1,73 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<dom-module id="view-element">
+	<template>
+		<style include="shared-styles">
+			:host {
+				display: block;
+				max-width: 750px;
+				min-width: 450px;
+
+				margin-left: 50px;
+				background-color: var(--drawer-menu-color);
+
+				@apply(--layout-vertical);
+				@apply(--layout-flex);
+			}
+
+			google-map {
+				margin: 20px 5% 20px 5%;
+				min-width: 450px;
+				height: 450px;
+			}
+
+			paper-input {
+				margin: 20px 5% 20px 5%;
+			}
+
+			#add {
+				background-color: var(--default-primary-color);
+				position: absolute;
+				right: 5%;
+			}
+		</style>
+
+		<paper-material id="content" class="flex vertical layout" elevation="1">
+			<h3 class="self-center">Event Location</h3>
+
+			<google-map latitude="{{location.lat}}" longitude="{{location.lon}}">
+				<google-map-marker latitude="37.779" longitude="-122.3892"
+								   draggable="true" title="Go Giants!">
+				</google-map-marker>
+			</google-map>
+
+			<div>
+				<paper-fab id="add" icon="add" on-tap="_addPlace"></paper-fab>
+				<paper-input label="Add New Location" value="{{location.name}}"></paper-input>
+			</div>
+		</paper-material>
+	</template>
+	<script>
+		(function () {
+			'use strict';
+
+			Polymer({
+				is: 'view-element',
+
+				properties: {
+					location: {
+						type: Object,
+						value: function () {
+							return {
+								name: 'Marker',
+								lat: 37.77493,
+								lon: -122.41942
+							};
+						}
+					}
+				},
+				_addPlace: function () {}
+			});
+		})();
+	</script>
+</dom-module>
